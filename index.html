@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+    body {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      text-align: center;
+      box-sizing: border-box;
+      margin: 0;
+    }
+    #main {
+      padding: 2em 4em;
+      height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    img {
+      height: 40vh;
+    }
+    h1 {
+      font-size: 72px;
+      background: -webkit-linear-gradient(45deg, #d83b9e, #ffa48e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <img src="vonage.gif">
+    <h1 id="text">
+      <span id="name"></span>
+      <span>will begin</span>
+      <span id="time"></span>
+    </h1>
+  </div>
+  <script src="moment.min.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search)
+
+    if(!params.get('time') || !params.get('event')) {
+      document.getElementById('text').innerHTML = 'Must provide an event and time URL param, for example <span style="display: inline-block; font-family: monospace">?event=PDX Team&time=16:00</span>'
+    }
+
+    const endTime = params.get('time')
+    const start = moment()
+    const end = moment()
+
+    end.hour(endTime.split(':')[0]);
+    end.minute(endTime.split(':')[1]);
+    end.seconds(0);
+
+    document.getElementById('name').textContent = params.get('event')
+
+    function setTime() {
+      console.log('setTime');
+      const duration = moment.duration(end.diff(start))
+      const isFuture = duration._milliseconds > 0
+      const human = duration.humanize()
+      const timeEl = document.getElementById('time')
+      if(isFuture) timeEl.textContent = ' in ' + human
+      else timeEl.textContent = ' shortly'
+    }
+    
+    setTime()
+    setInterval(setTime, 15000)
+  </script>
+</body>
+</html>
