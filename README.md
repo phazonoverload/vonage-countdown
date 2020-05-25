@@ -1,0 +1,1 @@
+Countdown is updated every 15 seconds with a humanized duration. 
