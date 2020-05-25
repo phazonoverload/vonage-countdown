@@ -51,7 +51,6 @@
     }
 
     const endTime = params.get('time')
-    const start = moment()
     const end = moment()
 
     end.hour(endTime.split(':')[0]);
@@ -62,10 +61,12 @@
 
     function setTime() {
       console.log('setTime');
+      const start = moment()
       const duration = moment.duration(end.diff(start))
       const isFuture = duration._milliseconds > 0
       const human = duration.humanize()
       const timeEl = document.getElementById('time')
+      console.log(human);
       if(isFuture) timeEl.textContent = ' in ' + human
       else timeEl.textContent = ' shortly'
     }
